@@ -1,54 +1,40 @@
-# ⚔️ Sistema de Combate RPG Modular (Padrão Strategy)
+# ⚔️ Sistema de Combate Dinâmico com Estratégias Trocáveis
 
-## Visão Geral do Projeto
+## 💡 Padrão de Projeto: Strategy (Estratégia Comportamental)
 
-Este projeto demonstra a implementação de um sistema de combate robusto e altamente flexível para um motor de RPG, utilizando o **Padrão de Projeto Strategy (Estratégia)** em Java.
+Este projeto é uma simulação de combate de RPG desenvolvida em Java, focada em demonstrar a eficácia do **Padrão de Projeto Strategy**.
 
-O objetivo principal foi desacoplar o comportamento de ataque (a lógica da arma) do objeto que o executa (o Personagem). Isso permite que os personagens alterem completamente seu estilo de combate (e seus efeitos especiais) em tempo de execução, apenas trocando a arma equipada.
+O princípio central é o **desacoplamento** do comportamento de ataque. O `Personagem` (Contexto) delega a ação de combate à `Arma` (Strategy), permitindo a troca completa do estilo de luta em tempo de execução sem modificar a classe principal do herói.
 
-## 🎯 Padrão de Projeto Aplicado: Strategy (Estratégia Comportamental)
+## ✨ Funcionalidades do Sistema
 
-| Componente | Classes | Função no Padrão |
-| :--- | :--- | :--- |
-| **Strategy (Interface)** | `Arma` | Define o contrato comum para todos os algoritmos de ataque. |
-| **Concrete Strategy** | `EspadaLonga`, `CajadoArcano`, etc. | Implementa a lógica específica (dano, custo de Mana, efeito especial) de cada ataque. |
-| **Contexto** | `Personagem` | Mantém a referência à `Arma` e delega a execução do ataque, permitindo a troca dinâmica de estratégias. |
+A arquitetura lida com todas as complexidades de um motor de combate de forma modular e organizada:
 
-## ✨ Funcionalidades e Arquitetura
+### 1. Dano e Recursos (Estratégia Única)
+Cada `Arma` (Concrete Strategy) possui sua própria lógica encapsulada:
+* **Dano Variável:** Cada arma possui um dano base e um cálculo específico.
+* **Custo de Mana:** Verificação e consumo do recurso `Mana` a cada ataque.
+* **Requisitos de Atributos:** O sistema verifica atributos como **Força**, **Destreza** e **Inteligência** para validar se o personagem pode utilizar a arma.
 
-### 1. Sistema de Armas e Efeitos (Estratégias)
-Cada arma é uma estratégia distinta, encapsulando sua lógica de combate:
-* **Gestão de Recursos:** As armas verificam o `Mana` e os atributos (`Força`, `Destreza`, `Inteligência`) do `Personagem` antes de serem utilizadas ou equipadas.
-* **Efeitos Únicos:** Implementação de efeitos de status com duração por turno:
-    * **`Sangramento`:** Dano por tempo (DoT).
-    * **`Queimadura`:** Dano por tempo (DoT).
-    * **`Atordoado`:** Pula o turno do alvo.
-    * **`Ataque Furtivo` (`AdagaSombria`):** Dano triplo contra alvos já afetados por um status.
+### 2. Efeitos por Turno (`StatusEffect`)
+O sistema gerencia o ciclo de vida de penalidades de combate:
+* **Aplicação e Remoção Automática:** Gerenciamento da aplicação e remoção de penalidades por status a cada rodada, controlado pela classe `Batalha`.
+* **Status Implementados:** Sangramento, Queimadura e Atordoamento.
 
-### 2. Classes de Personagem (Contexto Estendido)
-As classes herdam de `Personagem` para definir características únicas:
-* **Atributos:** Força, Destreza e Inteligência fixos.
-* **Regras de Classe:** O método `podeUsarTipo()` restringe quais armas (`EspadaLonga`, `ArcoElfico`, etc.) são permitidas para cada classe.
-* **Habilidades Passivas:** Inclusão de lógicas específicas de classe, como redução de dano (`Guerreiro`) ou regeneração de Mana (`Mago`).
+### 3. Flexibilidade de Classe (Troca de Comportamento)
+* O design permite que personagens alternem instantaneamente entre diferentes tipos de ataque e estratégias.
+* Demonstração da criação de personagens "híbridos" que alternam entre estratégias de ataque físico e mágico, como o `Arqueiro` que usa tanto o `Arco Elfico` quanto a `Adaga Sombria`.
 
-### 3. Gerenciamento de Batalha
-* A classe `Batalha` orquestra o combate, gerencia a sequência de turnos, aplica os danos por status (`StatusEffect`) e verifica a condição de vitória/derrota.
+## ⚙️ Como Executar
 
-## 🚀 Como Executar
-
-O projeto está configurado com as seguintes classes principais:
-1.  **Classes de Modelo:** `Personagem`, `Arma`, `StatusEffect` (e suas implementações).
-2.  **Classe de Fluxo:** `Batalha` (gerencia turnos).
-3.  **Classe de Teste:** `Main.java` contém a simulação de combate, onde os personagens trocam de armas dinamicamente para demonstrar a flexibilidade do padrão.
-
-Para compilar e executar (usando o terminal padrão Java):
+O projeto é escrito em Java. Para rodar a simulação de combate (que está na classe `Main`):
 
 ```bash
-# Navegue até o diretório onde estão seus arquivos .java
-cd RpgCombatSystem/src
+# Navegue até o diretório dos arquivos .java (Ex: RpgCombatSystem/src)
+cd [DIRETORIO_DO_PROJETO]/src
 
 # Compile todas as classes
 javac *.java armas/*.java efeitos/*.java
 
-# Execute a classe principal (Main)
+# Execute a classe principal
 java Main
