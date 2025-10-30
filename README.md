@@ -25,16 +25,3 @@ O sistema gerencia o ciclo de vida de penalidades de combate:
 * O design permite que personagens alternem instantaneamente entre diferentes tipos de ataque e estratégias.
 * Demonstração da criação de personagens "híbridos" que alternam entre estratégias de ataque físico e mágico, como o `Arqueiro` que usa tanto o `Arco Elfico` quanto a `Adaga Sombria`.
 
-## ⚙️ Como Executar
-
-O projeto é escrito em Java. Para rodar a simulação de combate (que está na classe `Main`):
-
-```bash
-# Navegue até o diretório dos arquivos .java (Ex: RpgCombatSystem/src)
-cd [DIRETORIO_DO_PROJETO]/src
-
-# Compile todas as classes
-javac *.java armas/*.java efeitos/*.java
-
-# Execute a classe principal
-java Main
